@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, Response, make_response, jsonify
+from flask import Flask, render_template, request, Response, make_response, jsonify, json
 from flask import redirect, url_for 
 import requests
 import os
@@ -18,6 +18,23 @@ app = Flask(__name__)
 @app.route("/")
 def homepage():
 	return render_template('index.html')
+
+@app.route("/sample")
+def sample():
+	return render_template('samplechat.html')
+
+@app.route("/sendmessage", methods=['POST'])
+def send():
+	a_message = request.form.get('message')	
+	# print(a_message)
+	return json.dumps({'status':'OK','a_message':a_message});
+
+# @app.route('/signUpUser', methods=['POST'])
+# def signUpUser():
+#     user =  request.form['username'];
+#     password = request.form['password'];
+#     return json.dumps({'status':'OK','user':user,'pass':password});
+
 
 @app.route("/randomstring")
 def rndmstring():
@@ -44,7 +61,6 @@ def hacker():
 
 		top10_titles.sort()
 
-	print("test pull")
 	return jsonify(top10_titles)
 
 @app.route("/random_string")

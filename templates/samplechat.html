@@ -28,12 +28,17 @@
    <!--main content -->
    <div id="mainContent">
       <div id="homepage_form">
+<!--          <h2>I need some travel info about: </h2>
+         <form method='POST' action="/travel_guide" align=center>
+            <input name="location" style=" padding: 10px; padding-left: 5%; padding-right: 5%; border-color: darkgrey">
+            <div>
+            </div>
+            <input style=" padding: 10px; margin-top: 10px; background-color: #5b5b5b; color: white; font-weight: bold; border-color: black !important; border-width: 1px;" type="submit" value="TRAVEL ADVICE">
+         </form> -->
 
-          <form method='POST' action="/sendmessage" align=center id="chatform" role='form'>
-            <input name="message" style=" padding: 10px; padding-left: 5%; padding-right: 5%; border-color: darkgrey">
-            <button id="send" style=" padding: 10px; margin-top: 10px; background-color: #008CBA; color: white; font-weight: bold; border-color: darkgrey; border-width: 3px;">SEND</button>
+          <form method='GET' action="/hackernews" align=center>
+         <button type="button" id="target">Click Me!</button>
        </form>
-       <div id=themessage>        </div>
              <div id=random-string>        </div>
      <div id=top_10_titles>        </div>
       </div>

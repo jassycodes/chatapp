@@ -9,11 +9,20 @@ import datetime
 
 app = Flask(__name__)
 
-# connection = sqlite3.connect('data/travel.db')
-# c = connection.cursor()
+connection = sqlite3.connect('data/chatapp.db')
+c = connection.cursor()
 
-# connection.commit()
-# connection.close()
+c.execute('''CREATE TABLE IF NOT EXISTS message 
+			 (id INTEGER PRIMARY KEY AUTOINCREMENT, message VARCHAR(300) NOT NULL, date_posted default CURRENT_DATE, sender_id INTEGER, receiver_id INTEGER, FOREIGN KEY(sender_id) REFERENCES users(id), FOREIGN KEY(receiver_id) REFERENCES users(id))''')
+
+c.execute('''CREATE TABLE IF NOT EXISTS users
+			 (id INTEGER PRIMARY KEY AUTOINCREMENT, username text NOT NULL, password VARCHAR(12) NOT NULL, fname text, lname text, birthday date)''')
+
+# c.execute("INSERT INTO users(username, password, fname) VALUES(?,?,?);", ("jassycodes", "polygloter03", "Jasmine"))
+# c.execute("INSERT INTO users(username, password, fname) VALUES(?,?,?);", ("morsal11", "polygloter11", "Morsal"))
+
+connection.commit()
+connection.close()
 
 @app.route("/")
 def homepage():
@@ -25,7 +34,56 @@ def sample():
 
 @app.route("/sendmessage", methods=['POST'])
 def send():
-	a_message = request.form.get('message')	
+	sender = request.form.get('sender')
+	receiver = request.form.get('receiver')	
+	a_message = request.form.get('message')
+
+	print(sender)
+	print(receiver)
+
+
+	connection = sqlite3.connect('data/chatapp.db')
+	c = connection.cursor()
+
+	sender_id = 0
+	receiver_id = 0
+	senderFound = False
+	receiverFound = False
+
+	#query for checking if username sender exists in the database
+	c.execute("SELECT id FROM users WHERE username='{}'".format(sender))
+
+	if c.fetchall() is not None:
+		c.execute("SELECT id FROM users WHERE username='{}'".format(sender))
+		sender_id = c.fetchone()[0]
+		print(sender_id)
+		senderFound = True
+	else:
+		print("Empty")
+
+	#query for checking if username receiver exists in the database
+	c.execute("SELECT id FROM users WHERE username='{}'".format(receiver))
+	
+	if c.fetchall() is not None:
+		c.execute("SELECT id FROM users WHERE username='{}'".format(receiver))
+		receiver_id = c.fetchone()[0]
+		print(receiver_id)
+		receiverFound = True
+	else:
+		print("Empty")
+
+	if senderFound == True and receiverFound == True:
+		c.execute("INSERT INTO message(message, sender_id, receiver_id) VALUES(?,?,?);", (a_message, sender_id, receiver_id))
+	else:
+		print("either receiver or sender not found in the database")
+
+
+
+	connection.commit()
+	connection.close()
+
+
+
 	# print(a_message)
 	return json.dumps({'status':'OK','a_message':a_message});
 

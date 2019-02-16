@@ -1,0 +1,48 @@
+body.container-fluid{
+	background-color: #00997a;
+	color: #0a0a0f;
+	/*color: #5b5b5b;*/
+	font-family: 'Lato', sans-serif;
+	height: 100%;
+	width: 100%;
+}
+
+:link{
+	color: #d8b0b6;
+	text-decoration: none;
+	font-style: bold !important;
+}
+
+a:visited{
+	color: lightgrey;
+	text-decoration: none;
+	font-style: bold !important;
+}
+
+h1{
+	text-align: center;
+}
+
+h2{
+	text-align: center;
+	padding-bottom: 20px;
+}
+#menu {
+	text-align: center;
+	padding: 2%;
+	background-color: #282828;
+	font-weight: bold;
+	color: white !important;
+}
+
+#maincontent{
+	padding-top: 30px; 
+	padding-bottom: 30px;
+}
+
+#homepage_form{
+	margin-left: 30%;
+	margin-right: 30%;
+	margin-top: 150px;
+	margin-bottom: 150px;
+}

@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+   <head>
+      <meta charset="utf-8">
+      <title>Chat App</title>
+      <meta name="description" content="Travel Buddy">
+      <meta name="Jasmine" content="SitePoint">
+      <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+      <!--BOOTSTRAP-->
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+      <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+      <link rel="stylesheet" href="static/styles.css?v=1.0">
+      <!--BOOTSTRAP-->
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+      <script src="static/chat.js"></script>
+      <script src="static/button_example.js"></script>
+      <script src="static/httpRequestNoCallback.js"></script>
+      <!-- <a href="http://google.com/">Google></a> -->
+   </head>
+   <body class = "container-fluid">
+   <!-- menu div -->
+   <div id="menu" class="navbar navbar-default fixed-top">
+         <div class="container-fluid"><a href="/" class="menu-item">HOME</a> <a href=#mainContent class="menu-item">^</a></div>
+   </div>
+   <!-- menu div -->
+   <!--main content -->
+   <div id="mainContent">
+      <div id="homepage_form">
+<!--          <h2>I need some travel info about: </h2>
+         <form method='POST' action="/travel_guide" align=center>
+            <input name="location" style=" padding: 10px; padding-left: 5%; padding-right: 5%; border-color: darkgrey">
+            <div>
+            </div>
+            <input style=" padding: 10px; margin-top: 10px; background-color: #5b5b5b; color: white; font-weight: bold; border-color: black !important; border-width: 1px;" type="submit" value="TRAVEL ADVICE">
+         </form> -->
+
+          <form method='GET' action="/hackernews" align=center>
+         <button type="button" id="target">Click Me!</button>
+       </form>
+             <div id=random-string>        </div>
+     <div id=top_10_titles>        </div>
+      </div>
+   </div>
+   <!--main content -->
+   </body>
+   <!--container -->
+</html>

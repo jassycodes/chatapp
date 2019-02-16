@@ -43,6 +43,8 @@ def hacker():
 		top10_titles.append(story['title'])
 
 		top10_titles.sort()
+
+	print("test pull")
 	return jsonify(top10_titles)
 
 @app.route("/random_string")

@@ -24,9 +24,37 @@ c.execute('''CREATE TABLE IF NOT EXISTS users
 connection.commit()
 connection.close()
 
+@app.route("/login")
+def loginTwitter():
+	return render_template('login.html')
+
 @app.route("/")
 def homepage():
+
+	# # def fetch():
+	# connection = sqlite3.connect('data/chatapp.db')
+	# c = connection.cursor()
+
 	return render_template('index.html')
+
+@app.route("/getmessages", methods=['GET'])
+def fetchall():
+	connection = sqlite3.connect('data/chatapp.db')
+	c = connection.cursor()
+
+	messageDict = {}
+
+	c.execute("SELECT * FROM message")
+	messageList = c.fetchall()
+
+	print(messageList)
+	
+	connection.commit()
+	connection.close()
+
+	return jsonify(messageList)
+
+
 
 @app.route("/sample")
 def sample():

@@ -51,47 +51,51 @@ def send():
 	receiverFound = False
 	sender_name = ""
 	receiver_name = ""
+	error_msg = ""
 
 	#query for checking if username sender exists in the database
 	c.execute("SELECT id FROM users WHERE username='{}'".format(sender))
 
-	if c.fetchall() is not None:
+	if c.fetchone() is not None:
 		c.execute("SELECT id FROM users WHERE username='{}'".format(sender))
 		sender_id = c.fetchone()[0]
+		print("sender_id: ")
 		print(sender_id)
 		senderFound = True
 		c.execute("SELECT fname FROM users WHERE username='{}'".format(sender))
 		sender_name = c.fetchone()[0]
 	else:
 		print("Empty")
+		error_msg = " no username '" + sender + "' found"
 
 	#query for checking if username receiver exists in the database
 	c.execute("SELECT id FROM users WHERE username='{}'".format(receiver))
-	
-	if c.fetchall() is not None:
+	# print(c.fetchall())
+	if c.fetchone() is not None:
 		c.execute("SELECT id FROM users WHERE username='{}'".format(receiver))
 		receiver_id = c.fetchone()[0]
+		print("receiver_id: ")
 		print(receiver_id)
 		receiverFound = True
 		c.execute("SELECT fname FROM users WHERE username='{}'".format(receiver))
 		receiver_name = c.fetchone()[0]
 	else:
 		print("Empty")
+		error_msg += " no username '" + receiver + "' found"
 
 	if senderFound == True and receiverFound == True:
 		c.execute("INSERT INTO message(message, sender_id, receiver_id) VALUES(?,?,?);", (a_message, sender_id, receiver_id))
+		connection.commit()
+		connection.close()
+		print("adding sender_name: " + str(sender_name) + " and receiver_name: " + receiver_name)
+		return json.dumps({'status':'OK','a_message':a_message, 'sender': sender_name, 'receiver': receiver_name });
 	else:
 		print("either receiver or sender not found in the database")
+		return json.dumps({'status':'OK','error_msg': error_msg });
 
 
 
-	connection.commit()
-	connection.close()
 
-
-
-	# print(a_message)
-	return json.dumps({'status':'OK','a_message':a_message, 'sender': sender_name, 'receiver': receiver_name });
 
 # @app.route('/signUpUser', methods=['POST'])
 # def signUpUser():

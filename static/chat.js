@@ -10,7 +10,7 @@ $( document ).ready(function() {
             success: function(response) {
                 a_message = response;
                 console.log("Testing our chatapp", a_message);
-                $("#themessage").append(a_message);
+                $("#themessage").append("\n" + a_message);
             },
             error: function(error) {
                 console.log(error);
@@ -20,7 +20,7 @@ $( document ).ready(function() {
 	});
 
 
-	
+
 
 
 });

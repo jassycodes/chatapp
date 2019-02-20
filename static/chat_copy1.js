@@ -2,7 +2,7 @@ $( document ).ready(function() {
 
 function fetchall(){
     $.ajax({
-            url: '/getchats',
+            url: '/getmessages',
             data: $('form').serialize(),
             type: 'GET',
             success: function(data) {
@@ -12,12 +12,8 @@ function fetchall(){
 
                for (row = 0; row < messages.length; row++) {
                         a_message = messages[row][1]
-                        username = messages[row][5]
-                        date = messages[row][2]
-                        time = messages[row][3]
                         console.log(a_message);
-                        $("#messages").append("<b>" + username + "   </b>" + "<i>" + "[" + date + " " + time + "] : </i> "  + a_message + "<br>");
-                        // $("#messages").append("<b>" + username + ":   </b>" + a_message + "<br>" + "<i>" + date + " " + time + "</i>" + "<br>");
+                        $("#messages").append(a_message + "<br>");
                 }
                 setTimeout(fetchall,1000);
             },
@@ -33,7 +29,7 @@ fetchall();
 	$("#send").click(function(e) {
 		e.preventDefault()
 		$.ajax({
-            url: '/sendtochatbox',
+            url: '/sendmessage',
             data: $('form').serialize(),
             type: 'POST',
             success: function(response) {
@@ -47,24 +43,6 @@ fetchall();
         });
 
 	});
-
-    $("#deleteMessages").click(function(e) {
-        e.preventDefault()
-        $.ajax({
-            url: '/clearmessages',
-            data: $('form').serialize(),
-            type: 'POST',
-            success: function(response) {
-                status = response;
-                // console.log("Testing our chatapp", a_message);
-                $("#status").append(status);
-            },
-            error: function(error) {
-                console.log(error);
-            }
-        });
-
-    });  
 
 
 });

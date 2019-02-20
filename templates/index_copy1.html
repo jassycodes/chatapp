@@ -22,25 +22,21 @@
    <body class = "container-fluid">
    <!-- menu div -->
    <div id="menu" class="navbar navbar-default fixed-top">
-         <div class="container-fluid"><a href="/" class="menu-item">HOME</a> <p> YOU ARE LOGGED IN AS:  {{username}}</p> <a href=#mainContent class="menu-item">^</a> <form action="/logout"><input style=" padding: 10px; background-color: #0f6185; color: white; font-weight: bold; border-color: darkgrey; border-width: 3px;" type="submit" value="LOG OUT"> </form></div>
+         <div class="container-fluid"><a href="/" class="menu-item">HOME</a> <p> You are logged in as: </p><a href=#mainContent class="menu-item">^</a></div>
    </div>
    <!-- menu div -->
    <!--main content -->
    <div id="mainContent">
       <div id="homepage_form">
 
-          <form method='POST' action="/sendtochatbox" align=center id="chatform" role='form'>
-<!--             YOUR USERNAME: <input name="username" style=" padding: 10px; padding-left: 5%; padding-right: 5%; border-color: darkgrey">
-            <br> -->
+          <form method='POST' action="/sendmessage" align=center id="chatform" role='form'>
+            YOU ARE: <input name="sender" style=" padding: 10px; padding-left: 5%; padding-right: 5%; border-color: darkgrey">
+            <br>
+            SEND TO: <input name="receiver" style=" padding: 10px; padding-left: 5%; padding-right: 5%; border-color: darkgrey">
+            <br>
             <input name="message" style=" padding: 10px; padding-left: 5%; padding-right: 5%; border-color: darkgrey">
-            <button id="send" style=" padding: 10px; margin-top: 10px; background-color: #349fbf; color: white; font-weight: bold; border-color: white; border-width: 3px;">SEND</button>
-         </form>
-
-         <form method='POST' action="/clearmessages" align=center id="deleteMsgForm" role='form'>
-         <button id="deleteMessages" style=" padding: 10px; margin-top: 10px; background-color: #510000; color: white; font-weight: bold; border-color: white; border-width: 3px;">DELETE MESSAGES</button>
-        </form>
-
-       <div id=status align="center">        </div>
+            <button id="send" style=" padding: 10px; margin-top: 10px; background-color: black; color: white; font-weight: bold; border-color: white; border-width: 3px;">SEND</button>
+       </form>
        <div id=themessage>        </div>
        <div id=messages style="margin-top: 10px; padding: 5%; background-color: white; border-color: black !important; border-style: solid;"></div>
              <div id=random-string>        </div>

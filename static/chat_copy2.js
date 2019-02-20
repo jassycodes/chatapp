@@ -48,23 +48,5 @@ fetchall();
 
 	});
 
-    $("#deleteMessages").click(function(e) {
-        e.preventDefault()
-        $.ajax({
-            url: '/clearmessages',
-            data: $('form').serialize(),
-            type: 'POST',
-            success: function(response) {
-                status = response;
-                // console.log("Testing our chatapp", a_message);
-                $("#status").append(status);
-            },
-            error: function(error) {
-                console.log(error);
-            }
-        });
-
-    });  
-
 
 });

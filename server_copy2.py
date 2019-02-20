@@ -41,21 +41,8 @@ connection.close()
 @app.route("/chat")
 def chatapp():
 	username = request.cookies.get('sessionID')
+
 	return render_template('index.html', username=username)
-
-@app.route("/clearmessages", methods=['POST'])
-def clearmessages():
-	connection = sqlite3.connect('data/chatapp.db')
-	c = connection.cursor()
-
-	c.execute('''DROP TABLE IF EXISTS chats''')
-	c.execute('''CREATE TABLE IF NOT EXISTS chats 
-			 (id INTEGER PRIMARY KEY AUTOINCREMENT, message VARCHAR(500) NOT NULL, date_posted default CURRENT_DATE, [timestamp] default timestamp, user_id, username, FOREIGN KEY(user_id) REFERENCES users(id), FOREIGN KEY(username) REFERENCES users(username))''')
-
-	connection.commit()
-	connection.close()
-
-	return "MESSAGES SUCCESSFULLY DELETED"
 
 @app.route("/login")
 def loginTwitter():
@@ -137,6 +124,20 @@ def fetchall():
 		connection.close()
 
 		return jsonify(messageList)
+	# connection = sqlite3.connect('data/chatapp.db')
+	# c = connection.cursor()
+
+	# c.execute("SELECT * FROM chats")
+	# messageList = c.fetchall()
+
+	# print(messageList)
+		
+	# connection.commit()
+	# connection.close()
+
+	# return jsonify(messageList)
+
+
 
 @app.route("/sample")
 def sample():
@@ -222,5 +223,6 @@ def rndm_string():
 if __name__ == '__main__':
    app.run()
 
+	
 
 

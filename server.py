@@ -13,6 +13,7 @@ app = Flask(__name__)
 connection = sqlite3.connect('data/chatapp.db')
 c = connection.cursor()
 
+#auto creates current time particular to the timezone that they're in
 CURRENT_TIME = time.strftime('%H:%M:%S')
 
 # c.execute('''DROP TABLE IF EXISTS chats''')
@@ -43,12 +44,52 @@ def chatapp():
 	username = request.cookies.get('sessionID')
 	return render_template('index.html', username=username)
 
+@app.route("/register")
+def registerPage():
+	return render_template('register.html')
+
+
+@app.route("/register", methods=['POST'])
+def registerTwitter():
+	username = request.form.get('username')
+	password = request.form.get('pword')
+
+	status = ""
+	connection = sqlite3.connect('data/twitter.db')
+	c = connection.cursor()
+
+	userFound = True
+
+	c.execute("SELECT username FROM users WHERE username=?",(username,))
+	
+	if c.fetchone() is tuple:
+		username_in_db = c.fetchone()[0]
+		if username_in_db != username:
+			userFound = False
+			c.execute("INSERT INTO users(username, password) VALUES(?,?);", (username, password))
+			status = "Succesfully created your account!"
+		else:
+			userFound = True
+			status = "'" + username + "' already exists"
+	else:
+		userFound = False
+		c.execute("INSERT INTO users(username, password) VALUES(?,?);", (username, password))
+		status = "Succesfully created your account!"
+
+	connection.commit()
+	connection.close()
+
+	return render_template('register.html', status_CreateUser=status)
+
 @app.route("/clearmessages", methods=['POST'])
 def clearmessages():
+	#access the database
 	connection = sqlite3.connect('data/chatapp.db')
 	c = connection.cursor()
 
+	#remove the table
 	c.execute('''DROP TABLE IF EXISTS chats''')
+	#create same table again
 	c.execute('''CREATE TABLE IF NOT EXISTS chats 
 			 (id INTEGER PRIMARY KEY AUTOINCREMENT, message VARCHAR(500) NOT NULL, date_posted default CURRENT_DATE, [timestamp] default timestamp, user_id, username, FOREIGN KEY(user_id) REFERENCES users(id), FOREIGN KEY(username) REFERENCES users(username))''')
 
@@ -64,12 +105,12 @@ def loginTwitter():
 @app.route("/logout")
 def logoutTwitter():
 	print("attempting to delete cookie")
+	
 	resp = make_response(redirect('/login'))
 	resp.set_cookie('userID', '', expires=0)
 
 	return resp
 
-loggedIn = False
 
 @app.route("/login-user", methods=['POST'])
 def loginUser():
@@ -146,29 +187,30 @@ def sample():
 def send():
 	print("/sendtochatbox")
 	# user = request.form.get('username')
-	user = request.cookies.get('sessionID')
+	user = request.cookies.get('sessionID') #username from the log in screen
 
 	message = request.form.get('message')
 
 	connection = sqlite3.connect('data/chatapp.db')
 	c = connection.cursor()
 
-	userFound = False
-	username_verified = ""
-	user_fname = ""
-	user_id = 0
-	error_msg = ""
+	#assigning a variable userFound as False .. we're assuming that we haven't found the user
+	userFound = False 
+	username_verified = "" #a variable where we hold the verified username
+	user_fname = "" #name of user based off of the users table
+	user_id = 0 #getting id based off of the users table
+	error_msg = "" #error message
 
 	#query for checking if username exists in the database
 	c.execute("SELECT username FROM users WHERE username='{}'".format(user))
 
 	if c.fetchone() is not None:
 		c.execute("SELECT username FROM users WHERE username='{}'".format(user))
-		username_verified = c.fetchone()[0]
+		username_verified = c.fetchone()[0] #[username] -> c.fetchone() != string of the username, will always be a list
 		print("username_verified: ")
-		print(username_verified)
+		print(username_verified) 
 		userFound = True
-		c.execute("SELECT fname FROM users WHERE username='{}'".format(username_verified))
+		c.execute("SELECT fname FROM users WHERE username='{}'".format(username_verified)) #getting first name
 		user_fname = c.fetchone()[0]
 		c.execute("SELECT id FROM users WHERE username='{}'".format(username_verified))
 		user_id = c.fetchone()[0]

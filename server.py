@@ -51,35 +51,48 @@ def registerPage():
 
 @app.route("/register", methods=['POST'])
 def registerTwitter():
-	username = request.form.get('username')
-	password = request.form.get('pword')
+    username = request.form.get('username')
+    password = request.form.get('pword')
 
-	status = ""
-	connection = sqlite3.connect('data/twitter.db')
-	c = connection.cursor()
+    status = ""
+    connection = sqlite3.connect('data/chatapp.db')
+    c = connection.cursor()
 
-	userFound = True
+    userFound = True
 
-	c.execute("SELECT username FROM users WHERE username=?",(username,))
-	
-	if c.fetchone() is tuple:
-		username_in_db = c.fetchone()[0]
-		if username_in_db != username:
-			userFound = False
-			c.execute("INSERT INTO users(username, password) VALUES(?,?);", (username, password))
-			status = "Succesfully created your account!"
-		else:
-			userFound = True
-			status = "'" + username + "' already exists"
-	else:
-		userFound = False
-		c.execute("INSERT INTO users(username, password) VALUES(?,?);", (username, password))
-		status = "Succesfully created your account!"
-
-	connection.commit()
-	connection.close()
-
-	return render_template('register.html', status_CreateUser=status)
+    c.execute("SELECT username FROM users WHERE username=?",(username,))
+    
+    if c.fetchone() is not None:
+        c.execute("SELECT username FROM users WHERE username=?",(username,))
+        username_in_db = c.fetchone()[0]
+        print(username_in_db)
+        if username_in_db != username:
+            userFound = False
+            c.execute("INSERT INTO users(username, password) VALUES(?,?);", (username, password))
+            connection.commit()
+            connection.close()
+            status = "Succesfully created your account!"
+            print("New User: ")
+            print(username)
+            resp = make_response(redirect('/chat'))
+            resp.set_cookie('sessionID', username)
+            # loggedInAs = request.cookies.get('sessionID')
+            return resp
+        else:
+            userFound = True
+            status = "'" + username + "' already exists"
+            return render_template('register.html', status_CreateUser=status)
+    else:
+        userFound = False
+        c.execute("INSERT INTO users(username, password) VALUES(?,?);", (username, password))
+        connection.commit()
+        connection.close()
+        status = "Succesfully created your account!"
+        print("New User: ")
+        print(username)
+        resp = make_response(redirect('/chat'))
+        resp.set_cookie('sessionID', username)
+        return resp
 
 @app.route("/clearmessages", methods=['POST'])
 def clearmessages():
